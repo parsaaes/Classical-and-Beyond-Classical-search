@@ -27,7 +27,7 @@ def best_neigh(problem, state):
     return (best, expanded)
 
 def random_neigh(problem, state):
-    expanded = 0;
+    expanded = 0
     res = list()
     init_score = problem.evaluation(state)
     for key in state:
@@ -64,10 +64,11 @@ def hb(problem, init_state):
     current = init_state
     while True:
         neigh, e = best_neigh(problem,current)
+        expanded += e
+
         if problem.evaluation(neigh) > problem.evaluation(current):
             current = neigh
             visited += 1
-            expanded += e
         else:
             return (current, str(str(problem.evaluation(current)) + " from " + str(problem.best_score -2)), visited, expanded)
 
@@ -78,10 +79,11 @@ def stochstic_hb(problem, init_state):
     current = init_state
     while True:
         neigh, e = random_neigh(problem,current)
+        if e != None:
+            expanded += e
         if neigh != None and problem.evaluation(neigh) > problem.evaluation(current):
             current = neigh
             visited += 1
-            expanded += e
         else:
             return (current, str(str(problem.evaluation(current)) + " from " + str(problem.best_score -2)), visited, expanded)
 
@@ -92,10 +94,11 @@ def first_hb(problem, init_state):
     current = init_state
     while True:
         neigh, e = first_neigh(problem,current)
+        if e != None:
+            expanded += e
         if neigh != None and problem.evaluation(neigh) > problem.evaluation(current):
             current = neigh
             visited += 1
-            expanded += e
         else:
             return (current, str(str(problem.evaluation(current)) + " from " + str(problem.best_score -2)),visited,expanded)
 
@@ -108,11 +111,12 @@ def random_restart_hb(problem):
     current = init_state
     while True:
         neigh, e = best_neigh(problem,current)
+        if e != None:
+            expanded += e
         if problem.evaluation(neigh) > problem.evaluation(current):
             current = neigh
             print(problem.evaluation(neigh))
             visited += 1
-            expanded += e
         else:
             if problem.evaluation(current) >= problem.best_score - 2 :
                 return (current, str(str(problem.evaluation(current)) + " from " + str(problem.best_score -2)), visited, expanded)
@@ -134,10 +138,10 @@ def main():
     init["J"] = "R"
     init["K"] = "R"
     problem = ColoringProblem(init,None,coloring)
-    #print(hb(problem, init))
-    #print(stochstic_hb(problem, init))
-    #print(first_hb(problem, init))
-    print(random_restart_hb(problem))
+    print("Standard: " + str(hb(problem, init)))
+    print("Stochastic: " + str(stochstic_hb(problem, init)))
+    print("First choice: " + str(first_hb(problem, init)))
+    print("Random restart: " + str(random_restart_hb(problem)))
 
     return
 if __name__ == "__main__":
