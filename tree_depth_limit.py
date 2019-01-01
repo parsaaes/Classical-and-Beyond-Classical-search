@@ -21,7 +21,8 @@ def recursive_dls(problem, src, limit):
             result, v1, e1, m1 = recursive_dls(problem, child ,limit - 1)
             visited += v1
             expanded_nodes += e1
-            maximum_memory += m1
+            # maximum_memory += m1
+            maximum_memory = max(maximum_memory, m1)
             if result == 'cutoff':
                 cutoff_occurred = True
             elif result is not None:
@@ -39,7 +40,7 @@ def dls(problem, limit):
 def main():
     romania_graph = pg.get_romania_graph()
     romania_prob = RomaniaProblem("Arad","Bucharest", romania_graph)
-    node, v, e, n = dls(romania_prob,2)
+    node, v, e, n = dls(romania_prob,3)
     if isinstance(node, Node):
         node.print_path()
         print((v, e, n, node.cost))
