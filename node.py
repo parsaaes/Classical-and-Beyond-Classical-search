@@ -3,7 +3,7 @@ class Node:
         self.state = state
         self.action = action
         self.parent = parent
-        self.cost = cost
+        self.cost = cost #f(n)
         self.g = g
 
     def __repr__(self):
@@ -23,7 +23,8 @@ class Node:
 
     def child_node(self, problem, action, now_cost=0, g=0):
         child = problem.transition(self.state, action)
-        return Node(child, action, self, now_cost,g=0)
+        # now_cost is f(n)
+        return Node(child, action, self, now_cost,g)
 
     def path(self):
         node = self
