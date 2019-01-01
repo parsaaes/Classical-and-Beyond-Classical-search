@@ -12,14 +12,15 @@ class RomaniaProblem():
     def transition(self, state, action):
         return action
 
+    def path_cost(self,u ,v):
+        return self.graph.cost(u,v)
+
     def goal_test(self,state):
         if state == self.goal_state:
             print(self.goal_state + " is a goal!")
             return True
         return False
 
-    def path_cost(self):
-        return NotImplementedError
 
 
 def main():

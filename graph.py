@@ -13,6 +13,8 @@ class GraphClass:
         self.weights[(u, v)] = cost
         self.weights[(v, u)] = cost
 
+    def cost(self,u,v):
+        return self.weights[(u,v)]
 
     def print_graph(self):
         print(self.adj_list)
