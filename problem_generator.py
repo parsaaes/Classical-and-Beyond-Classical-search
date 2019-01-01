@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 from graph import GraphClass
 
 
@@ -27,3 +29,27 @@ def get_romania_graph():
         romania.add_edge("Vaslui", "Iasi", 92)
         romania.add_edge("Neamt", "Iasi", 87)
         return romania
+
+def romania_huristic():
+    h = defaultdict(list)
+    h["Arad"] = 366
+    h["Bucharest"] = 0
+    h["Craiova"] = 160
+    h["Dobreta"] = 242
+    h["Eforie"] = 161
+    h["Fagaras"] = 178
+    h["Giurgiu"] = 77
+    h["Hirsova"] = 151
+    h["Iasi"] = 226
+    h["Lugoj"] = 244
+    h["Mehadia"] = 241
+    h["Neamt"] = 234
+    h["Oradea"] = 380
+    h["Pitesti"] = 98
+    h["Rimnicu Vilcea"] = 193
+    h["Sibiu"] = 253
+    h["Timisoara"] = 329
+    h["Urziceni"] = 80
+    h["Vaslui"] = 199
+    h["Zerind"] = 374
+    return h

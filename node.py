@@ -1,9 +1,10 @@
 class Node:
-    def __init__(self,state,action, parent=None, cost=0):
+    def __init__(self,state,action, parent=None, cost=0, g = 0):
         self.state = state
         self.action = action
         self.parent = parent
         self.cost = cost
+        self.g = g
 
     def __repr__(self):
         return "[{}]".format(self.state)
@@ -20,9 +21,9 @@ class Node:
     def print_path(self):
         print(self.path())
 
-    def child_node(self, problem, action, now_cost=0):
+    def child_node(self, problem, action, now_cost=0, g=0):
         child = problem.transition(self.state, action)
-        return Node(child, action, self, now_cost + problem.path_cost(self.state,child))
+        return Node(child, action, self, now_cost,g=0)
 
     def path(self):
         node = self

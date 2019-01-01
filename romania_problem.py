@@ -22,7 +22,6 @@ class RomaniaProblem():
         return False
 
 
-
 def main():
     romania = GraphClass(20)
     romania.add_edge("Oradea","Zerind",71)
