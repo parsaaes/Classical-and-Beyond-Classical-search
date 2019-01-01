@@ -39,7 +39,7 @@ def dls(problem, limit):
 def main():
     romania_graph = pg.get_romania_graph()
     romania_prob = RomaniaProblem("Arad","Bucharest", romania_graph)
-    node, v, e, n = dls(romania_prob,7)
+    node, v, e, n = dls(romania_prob,2)
     if isinstance(node, Node):
         node.print_path()
         print((v, e, n, node.cost))
