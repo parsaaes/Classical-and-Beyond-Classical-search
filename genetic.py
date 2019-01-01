@@ -12,7 +12,7 @@ def fitness_func(problem,state):
         for neigh in problem.graph.adj_list[key]:
             if state[problem.char_to_int(key)] != state[problem.char_to_int(neigh)]:
                 value += 1
-    return value/(problem.graph.number_of_edges())
+    return value/(2 * problem.graph.number_of_edges())
 
 def init_population(population_size, constraint, length):
     population = list()
@@ -45,7 +45,7 @@ def mutate(original, constraints, rate=0.2):
 def prob(probability):
     return random.random() < probability
 
-def genetic_algoirthm(problem, populationSize, tournamentSize, numberOfGenerations, mutationRate=0.02):
+def genetic_algoirthm(problem, populationSize, tournamentSize, numberOfGenerations, mutationRate=0.1):
     initial_population = init_population(populationSize,problem.constraints,len(problem.graph.adj_list))
     population = list()
     for g in range(0,numberOfGenerations):
@@ -64,16 +64,31 @@ def genetic_algoirthm(problem, populationSize, tournamentSize, numberOfGeneratio
             mutate(random.choice(population),problem.constraints,0.3)
 
         initial_population = population
+        find_worst(population,problem)
+        find_best(population,problem)
 
+    return population
+
+
+def find_best(population, problem):
     best = None
     best_score = 0
     for individual in population:
         score = fitness_func(problem, individual)
-        print(str(individual) + ":" + str(score))
         if (score > best_score):
             best_score = score
             best = individual
     print("best is " + str(best_score))
+
+def find_worst(population, problem):
+    worst = None
+    worst_score = 1
+    for individual in population:
+        score = fitness_func(problem, individual)
+        if (score < worst_score):
+            worst_score = score
+            worst = individual
+    print("worst is " + str(worst_score))
 
 
 def run_tournament(initial_population, problem, tournamentSize):
@@ -121,7 +136,7 @@ def main():
     #print(['G', 'B', 'R', 'R', 'R', 'B', 'B', 'G', 'G', 'G', 'G'])
     #print(mutate(['G', 'B', 'R', 'R', 'R', 'B', 'B', 'G', 'G', 'G', 'G'],problem.constraints))
     # run_tournament(init_population(3,problem.constraints,len(problem.graph.adj_list)),problem,3)
-    genetic_algoirthm(problem,30,5,10)
+    population = genetic_algoirthm(problem,30,5,10)
     return
 if __name__ == "__main__":
         main()

@@ -25,7 +25,7 @@ class GraphClass:
         res = 0
         for key in self.adj_list:
             res += len(self.adj_list[key])
-        return res
+        return res/2
 
 
 def main():
