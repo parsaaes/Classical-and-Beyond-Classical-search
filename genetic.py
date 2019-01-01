@@ -2,6 +2,7 @@ import copy
 import random
 from collections import defaultdict
 from math import floor
+import matplotlib.pyplot as plt
 
 import problem_generator as pg
 from coloring_problem import ColoringProblem
@@ -45,7 +46,27 @@ def mutate(original, constraints, rate=0.2):
 def prob(probability):
     return random.random() < probability
 
+
+def plot_datas(plot_data_best, plot_data_mean, plot_data_worst,x_axis):
+    plt.plot(plot_data_best)
+    plt.ylabel('best')
+    plt.axis([0,x_axis,0.5,1])
+    plt.show()
+    plt.plot(plot_data_mean)
+    plt.ylabel('mean')
+    plt.axis([0,x_axis,0.5,1])
+    plt.show()
+    plt.plot(plot_data_worst)
+    plt.ylabel('worst')
+    plt.axis([0,x_axis,0.5,1])
+    plt.show()
+
+
 def genetic_algoirthm(problem, populationSize, tournamentSize, numberOfGenerations, mutationRate=0.1):
+    plot_data_best = list()
+    plot_data_worst = list()
+    plot_data_mean = list()
+
     initial_population = init_population(populationSize,problem.constraints,len(problem.graph.adj_list))
     population = list()
     for g in range(0,numberOfGenerations):
@@ -64,9 +85,11 @@ def genetic_algoirthm(problem, populationSize, tournamentSize, numberOfGeneratio
             mutate(random.choice(population),problem.constraints,0.3)
 
         initial_population = population
-        find_worst(population,problem)
-        find_best(population,problem)
+        plot_data_worst.append(find_worst(population,problem))
+        plot_data_best.append(find_best(population,problem))
+        plot_data_mean.append(find_mean(population,problem))
 
+    plot_datas(plot_data_best,plot_data_mean,plot_data_worst,numberOfGenerations)
     return population
 
 
@@ -79,6 +102,15 @@ def find_best(population, problem):
             best_score = score
             best = individual
     print("best is " + str(best_score))
+    return best_score
+
+def find_mean(population, problem):
+    best = None
+    total_score = 0
+    for individual in population:
+        score = fitness_func(problem, individual)
+        total_score += score
+    return total_score/len(population)
 
 def find_worst(population, problem):
     worst = None
@@ -89,6 +121,7 @@ def find_worst(population, problem):
             worst_score = score
             worst = individual
     print("worst is " + str(worst_score))
+    return worst_score
 
 
 def run_tournament(initial_population, problem, tournamentSize):
@@ -136,7 +169,7 @@ def main():
     #print(['G', 'B', 'R', 'R', 'R', 'B', 'B', 'G', 'G', 'G', 'G'])
     #print(mutate(['G', 'B', 'R', 'R', 'R', 'B', 'B', 'G', 'G', 'G', 'G'],problem.constraints))
     # run_tournament(init_population(3,problem.constraints,len(problem.graph.adj_list)),problem,3)
-    population = genetic_algoirthm(problem,30,5,10)
+    population = genetic_algoirthm(problem,30,5,100,0.01)
     return
 if __name__ == "__main__":
         main()
