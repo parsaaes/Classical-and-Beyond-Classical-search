@@ -4,27 +4,36 @@ from romania_problem import RomaniaProblem
 import problem_generator as pg
 
 def recursive_dls(problem, src, limit, explored):
+    visited = 0
+    expanded_nodes = 0
+    maximum_memory = 0
+
+    visited += 1
     if problem.goal_test(src.state):
-        return src
+        return (src, visited, expanded_nodes, maximum_memory + 1)
     elif limit == 0:
-        return 'cutoff'
+        return ('cutoff', visited, expanded_nodes, maximum_memory + 1)
     else:
         cutoff_occurred = False
         for action in problem.actions(src.state):
-            child = src.child_node(problem, action)
+            child = src.child_node(problem, action, src.cost + 1)
+            expanded_nodes += 1
             if child.state in explored:
                 continue
             explored.add(child.state)
-            result = recursive_dls(problem, child ,limit - 1,explored)
+            result, v1, e1, m1 = recursive_dls(problem, child ,limit - 1, explored)
+            visited += v1
+            expanded_nodes += e1
+            maximum_memory += m1
             if result == 'cutoff':
                 cutoff_occurred = True
                 explored.remove(child.state)
             elif result is not None:
-                return result
+                return (result, visited, expanded_nodes, maximum_memory + 1)
         if cutoff_occurred:
-            return 'cutoff'
+            return ('cutoff', visited, expanded_nodes, maximum_memory + 1)
         else:
-            return None
+            return (None, visited, expanded_nodes, maximum_memory + 1)
 
 
 def dls(problem, limit):
@@ -35,9 +44,11 @@ def dls(problem, limit):
 def main():
     romania_graph = pg.get_romania_graph()
     romania_prob = RomaniaProblem("Arad","Bucharest", romania_graph)
-    node = dls(romania_prob,3)
+    node, v, e, n = dls(romania_prob,7)
     if isinstance(node, Node):
         node.print_path()
+        print((v,e,n,node.cost))
+
     else:
         print(node)
 
