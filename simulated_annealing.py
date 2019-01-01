@@ -42,7 +42,8 @@ def simulated_annealing(problem, init_state, inf):
             current = neigh
             visited += 1
         else:
-            if prob((inf-i)/inf):
+            delta_e = problem.evaluation(current) - problem.evaluation(neigh)
+            if prob(delta_e/i):
                 current = neigh
                 visited += 1
         t += 1
