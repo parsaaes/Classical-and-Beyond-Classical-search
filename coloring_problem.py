@@ -73,6 +73,21 @@ class ColoringProblem():
             result.append(g)
         return result
 
+    def char_to_int(self,char):
+        map = defaultdict()
+        map["A"] = 0
+        map["B"] = 1
+        map["C"] = 2
+        map["D"] = 3
+        map["E"] = 4
+        map["F"] = 5
+        map["G"] = 6
+        map["H"] = 7
+        map["I"] = 8
+        map["J"] = 9
+        map["K"] = 10
+        return map[char]
+
 
 def main():
     coloring = pg.get_coloring_graph()

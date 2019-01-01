@@ -21,6 +21,12 @@ class GraphClass:
         for g in self.adj_list:
             print(self.adj_list.get(g))
 
+    def number_of_edges(self):
+        res = 0
+        for key in self.adj_list:
+            res += len(self.adj_list[key])
+        return res
+
 
 def main():
     romania = GraphClass(20)
