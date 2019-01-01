@@ -8,6 +8,10 @@ from romania_problem import RomaniaProblem
 import problem_generator as pg
 
 def ASTAR(problem, h):
+    visited = 0
+    expanded_nodes = 0
+    maximum_memory = 0
+
     node = Node(problem.initial_state,None,None)
     frontier = list()
     heapq.heapify(frontier)
@@ -16,17 +20,22 @@ def ASTAR(problem, h):
     frontier_state.append(node.state)
     while True:
        if len(frontier) == 0:
-           return None
+           return (None,None)
        node = heapq.heappop(frontier)
+       visited += 1
+
        print("POPED: " + node.state + " f:" + str(node.cost))
        if problem.goal_test(node.state):
-           return node
+           return (node,(visited,expanded_nodes,maximum_memory,node.g))
        for action in problem.actions(node.state):
            g = node.g + problem.path_cost(node.state,problem.transition(node.state,action))
            child = node.child_node(problem,action,g + h[problem.transition(node.state,action)],g)
            if (child.state not in frontier_state):
                 print(child.state + " <- " + child.parent.state + " : " + str(child.cost))
                 heapq.heappush(frontier,child)
+                expanded_nodes += 1
+                maximum_memory = max(maximum_memory, len(frontier))
+
                 frontier_state.append(child.state)
            elif child.state in frontier_state:
                for n in frontier:
@@ -40,9 +49,10 @@ def ASTAR(problem, h):
 def main():
     romania_graph = pg.get_romania_graph()
     romania_prob = RomaniaProblem("Arad","Bucharest", romania_graph)
-    node = ASTAR(romania_prob,pg.romania_huristic())
+    node, details = ASTAR(romania_prob,pg.romania_huristic())
     if node is not None:
         node.print_path()
+        print(details)
     return
 if __name__ == "__main__":
         main()
