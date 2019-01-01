@@ -2,12 +2,11 @@ from collections import defaultdict
 import numpy as np
 class GraphClass:
     def __init__(self, vertices):
-
         self.V = vertices
         self.adj_list = defaultdict(list)
         self.weights = defaultdict(list)
 
-    def add_edge(self, u, v, cost):
+    def add_edge(self, u, v, cost=0):
         self.adj_list[u].append(v)
         self.adj_list[v].append(u) # make the graph undirected
         self.weights[(u, v)] = cost

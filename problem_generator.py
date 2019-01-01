@@ -2,6 +2,30 @@ from collections import defaultdict
 
 from graph import GraphClass
 
+def get_coloring_graph():
+    coloring = GraphClass(11)
+    coloring.add_edge("A","B")
+    coloring.add_edge("A","C")
+    coloring.add_edge("B","H")
+    coloring.add_edge("B","F")
+    coloring.add_edge("C","F")
+    coloring.add_edge("C","D")
+    coloring.add_edge("F","E")
+    coloring.add_edge("D","E")
+    coloring.add_edge("H","G")
+    coloring.add_edge("F","G")
+    coloring.add_edge("G","I")
+    coloring.add_edge("F","J")
+    coloring.add_edge("E","K")
+    coloring.add_edge("J","K")
+    coloring.add_edge("J","I")
+
+    coloring.add_edge("A","I")
+    coloring.add_edge("A","K")
+    coloring.add_edge("H","D")
+    coloring.add_edge("H","K")
+    coloring.add_edge("I","D")
+    return coloring
 
 def get_romania_graph():
         romania = GraphClass(20)
